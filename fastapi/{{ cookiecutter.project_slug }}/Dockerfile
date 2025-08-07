@@ -18,7 +18,6 @@ COPY pyproject.toml .
 COPY .env.example ./.env  # override with real secrets in runtime
 COPY {{ cookiecutter.package_name }} ./{{ cookiecutter.package_name }}
 COPY docker ./docker
-COPY Makefile ./Makefile
 
 # Resolve and install with uv (creates uv.lock)
 RUN uv sync --frozen || uv sync
