@@ -1,0 +1,19 @@
+{
+  "project_name": "My FastAPI Service",
+  "project_slug": "my_fastapi_service",
+  "package_name": "app",
+  "description": "FastAPI + uv + structlog + JWT + SQLModel",
+  "author_name": "Your Name",
+  "python_version": "3.11",
+  "use_postgres": [
+    "y",
+    "n"
+  ],
+  "_copy_without_render": [
+    "*.png",
+    "*.jpg",
+    "*.jpeg",
+    "*.gif",
+    "*.svg"
+  ]
+}

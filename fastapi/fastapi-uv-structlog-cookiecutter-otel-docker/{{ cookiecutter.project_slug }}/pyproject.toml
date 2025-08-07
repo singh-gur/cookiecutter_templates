@@ -1,0 +1,47 @@
+[project]
+name = "{{ cookiecutter.project_slug }}"
+version = "0.1.0"
+description = "{{ cookiecutter.description }}"
+readme = "README.md"
+requires-python = ">={{ cookiecutter.python_version }}"
+authors = [ { name = "{{ cookiecutter.author_name }}" } ]
+
+dependencies = [
+  "fastapi>=0.111.0",
+  "uvicorn[standard]>=0.30.0",
+  "structlog>=24.1.0",
+  "python-dotenv>=1.0.1",
+  "pydantic-settings>=2.3.4",
+  "sqlmodel>=0.0.22",
+  "PyJWT>=2.9.0",
+  "passlib[bcrypt]>=1.7.4",
+
+  "opentelemetry-api>=1.26.0",
+  "opentelemetry-sdk>=1.26.0",
+  "opentelemetry-exporter-otlp>=1.26.0",
+  "opentelemetry-instrumentation-fastapi>=0.47b0",
+  "opentelemetry-instrumentation-logging>=0.47b0",
+
+  # database drivers
+  "psycopg[binary]>=3.2.1",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+  "httpx>=0.27.0",
+  "ruff>=0.5.6",
+  "mypy>=1.10.0",
+  "types-passlib",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.mypy]
+python_version = "{{ cookiecutter.python_version }}"
+ignore_missing_imports = true
+
+[tool.uv]
+# Keep default settings; `uv` will read this pyproject and create uv.lock on sync.
+

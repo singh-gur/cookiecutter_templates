@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    image: {{ cookiecutter.project_slug }}:dev
+    container_name: {{ cookiecutter.project_slug }}
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - otel-collector{% if cookiecutter.use_postgres == 'y' %}
+      - db{% endif %}
+    volumes:
+      - ./:/app
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.113.0
+    command: ["--config=/etc/otel-collector-config.yaml"]
+    ports:
+      - "4317:4317"  # gRPC
+      - "4318:4318"  # HTTP
+    volumes:
+      - ./docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+
+{% if cookiecutter.use_postgres == 'y' %}
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+{% endif %}
+
+volumes:
+{% if cookiecutter.use_postgres == 'y' %}
+  pgdata:
+{% endif %}
