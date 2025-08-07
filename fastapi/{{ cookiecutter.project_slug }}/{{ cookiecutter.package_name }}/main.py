@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from .core.config import settings
-from .core.logging import configure_logging
-from .core.otel import setup_otel
-from .api.routes import auth, health, users
+from {{ cookiecutter.package_name }}.core.config import settings
+from {{ cookiecutter.package_name }}.core.logging import configure_logging
+from {{ cookiecutter.package_name }}.core.otel import setup_otel
+from {{ cookiecutter.package_name }}.api.routes import auth, health, users
 
 app = FastAPI(title=settings.APP_NAME)
 

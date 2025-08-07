@@ -6,7 +6,7 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.instrumentation.logging import LoggingInstrumentor
 
-from .config import settings
+from {{ cookiecutter.package_name }}.core.config import settings
 
 def setup_otel(app):
     resource = Resource(attributes={SERVICE_NAME: settings.APP_NAME})

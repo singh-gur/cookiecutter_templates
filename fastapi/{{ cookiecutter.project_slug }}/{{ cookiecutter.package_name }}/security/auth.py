@@ -6,9 +6,9 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session, select
 from passlib.context import CryptContext
 
-from ..core.config import settings
-from ..db.session import get_session
-from ..db.models import User
+from {{ cookiecutter.package_name }}.core.config import settings
+from {{ cookiecutter.package_name }}.db.session import get_session
+from {{ cookiecutter.package_name }}.db.models import User
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

@@ -1,7 +1,7 @@
 import logging
 import sys
 import structlog
-from .config import settings
+from {{ cookiecutter.package_name }}.core.config import settings
 
 def configure_logging():
     timestamper = structlog.processors.TimeStamper(fmt="iso", utc=True)

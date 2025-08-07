@@ -1,7 +1,7 @@
 from contextlib import contextmanager
 from sqlmodel import create_engine, Session
-from ..core.config import settings
-from .models import SQLModel, User  # ensure model import so metadata is built
+from {{ cookiecutter.package_name }}.core.config import settings
+from {{ cookiecutter.package_name }}.db.models import SQLModel, User  # ensure model import so metadata is built
 
 engine = create_engine(settings.effective_database_url, echo=False)
 

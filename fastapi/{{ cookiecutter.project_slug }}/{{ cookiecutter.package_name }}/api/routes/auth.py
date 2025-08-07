@@ -3,11 +3,11 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from sqlalchemy.exc import NoResultFound
 from sqlmodel import Session, select
-from ..routes.types import Token
-from ...db.session import get_session
-from ...db.models import User
-from ...security.auth import create_access_token, verify_password
-from ...core.config import settings
+from {{ cookiecutter.package_name }}.api.routes.types import Token
+from {{ cookiecutter.package_name }}.db.session import get_session
+from {{ cookiecutter.package_name }}.db.models import User
+from {{ cookiecutter.package_name }}.security.auth import create_access_token, verify_password
+from {{ cookiecutter.package_name }}.core.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 router = APIRouter(tags=["auth"])

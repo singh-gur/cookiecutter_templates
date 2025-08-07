@@ -1,10 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session, select
-from ..routes.types import UserRead, UserCreate
-from ...db.session import get_session
-from ...db.models import User
-from ...security.auth import get_current_user, get_password_hash
+from {{ cookiecutter.package_name }}.api.routes.types import UserRead, UserCreate
+from {{ cookiecutter.package_name }}.db.session import get_session
+from {{ cookiecutter.package_name }}.db.models import User
+from {{ cookiecutter.package_name }}.security.auth import get_current_user, get_password_hash
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/token")
 router = APIRouter(prefix="/users", tags=["users"])

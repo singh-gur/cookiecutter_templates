@@ -1,4 +1,4 @@
-from .session import init_db
+from {{ cookiecutter.package_name }}.db.session import init_db
 
 def run():
     init_db()
