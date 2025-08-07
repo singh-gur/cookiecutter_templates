@@ -1,34 +1,54 @@
-# { cookiecutter.project_name }
+# {{ cookiecutter.project_name }}
 
-{ cookiecutter.description }
+{{ cookiecutter.description }}
 
-## Quickstart
+## Development Setup
 
-1) **Install tools** (macOS/Linux shown):  
+1) **Install uv** (if not already installed):
 ```bash
-pipx install cookiecutter
 pipx install uv
 ```
-2) **Generate a new project** from this template:
+
+2) **Install dependencies**:
 ```bash
-cookiecutter path/to/this/template
-```
-3) **Enter the project** and install deps with `uv`:
-```bash
-cd { '{ cookiecutter.project_slug }' }
 uv sync
 ```
-4) **Configure environment**:
+
+3) **Configure environment**:
 ```bash
 cp .env.example .env
-# edit secrets in .env (JWT_SECRET, DB URL, etc.)
+# Edit secrets in .env (JWT_SECRET, DATABASE_URL, etc.)
 ```
-5) **Run**:
+
+4) **Initialize database**:
 ```bash
-uv run uvicorn { '{ cookiecutter.package_name }' }.main:app --reload
+just initdb
+```
+
+5) **Run development server**:
+```bash
+just run
 ```
 
 Open http://127.0.0.1:8000/docs for Swagger UI.
+
+## Development Commands
+
+This project uses `justfile` for common development tasks:
+
+```bash
+just run      # Start development server with auto-reload
+just initdb   # Initialize database schema
+just test     # Run test suite
+```
+
+## Code Quality
+
+```bash
+uv run ruff check     # Lint code
+uv run ruff format    # Format code
+uv run mypy .         # Type checking
+```
 
 ## Notes
 
