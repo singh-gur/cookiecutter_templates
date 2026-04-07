@@ -1,0 +1,38 @@
+# Welcome to your prefect.yaml file! You can use this file for storing and managing
+# configuration for deploying your flows. We recommend committing this file to source
+# control along with your flow code.
+
+name: "{{ cookiecutter.project_slug }}"
+prefect-version: 3.6.10
+
+build: null
+
+push: null
+
+pull:
+  - prefect.deployments.steps.git_clone:
+      id: clone_step
+      repository: "{{ cookiecutter.repository_url }}"
+      branch: "{{ cookiecutter.default_branch }}"
+  - prefect.deployments.steps.run_shell_script:
+      id: install_project_step
+      script: 'pip install "{% raw %}{{ clone_step.directory }}{% endraw %}"'
+      stream_output: true
+
+deployments:
+  - name: "{{ cookiecutter.deployment_name }}"
+    version: 0.1.0
+    tags: []
+    description: "{{ cookiecutter.description }}"
+    schedule:
+      cron: "{{ cookiecutter.cron_schedule }}"
+      timezone: "{{ cookiecutter.timezone }}"
+    flow_name: "{{ cookiecutter.flow_function_name }}"
+    entrypoint: "{{ cookiecutter.package_name }}/flows/{{ cookiecutter.flow_module_name }}.py:{{ cookiecutter.flow_function_name }}"
+    parameters: {}
+    work_pool:
+      name: "{{ cookiecutter.work_pool_name }}"
+      work_queue_name: null
+      job_variables:
+        packages:
+          - "prefect-kubernetes>=0.7.2"

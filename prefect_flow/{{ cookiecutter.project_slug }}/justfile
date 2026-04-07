@@ -1,0 +1,19 @@
+# Prefect project commands
+
+install:
+    uv sync
+
+run-local:
+    PREFECT_API_URL='' PREFECT_SERVER_ALLOW_EPHEMERAL_MODE=true uv run python -c "from {{ cookiecutter.package_name }}.flows.{{ cookiecutter.flow_module_name }} import {{ cookiecutter.flow_function_name }}; {{ cookiecutter.flow_function_name }}()"
+
+deploy:
+    uv run prefect deploy --all
+
+deploy-scheduled:
+    uv run prefect deploy {{ cookiecutter.package_name }}/flows/{{ cookiecutter.flow_module_name }}.py:{{ cookiecutter.flow_function_name }} --name {{ cookiecutter.deployment_name }} --cron '{{ cookiecutter.cron_schedule }}' -p {{ cookiecutter.work_pool_name }}
+
+list-deployments:
+    uv run prefect deployment ls
+
+status:
+    uv run prefect version && uv run prefect profile ls

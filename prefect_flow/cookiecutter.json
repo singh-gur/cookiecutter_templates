@@ -1,0 +1,20 @@
+{
+  "project_name": "My Prefect Flow",
+  "project_slug": "my_prefect_flow",
+  "package_name": "my_prefect_flow",
+  "description": "Prefect flow scaffold with Kubernetes-first deployment defaults",
+  "author_name": "Your Name",
+  "python_version": "3.12",
+  "repository_url": "https://github.com/your-org/your-repo.git",
+  "default_branch": "main",
+  "deployment_name": "default",
+  "flow_module_name": "example_flow",
+  "flow_function_name": "run_flow",
+  "work_pool_name": "kubernetes",
+  "cron_schedule": "0 2 * * *",
+  "timezone": "America/New_York",
+  "_copy_without_render": [
+    ".gitignore",
+    ".prefectignore"
+  ]
+}
