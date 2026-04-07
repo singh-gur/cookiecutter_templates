@@ -16,8 +16,27 @@ default:
 list-templates:
     @printf '%s\n' fastapi prefect_flow
 
-# Render the FastAPI template into {{output_dir}}/{{project_slug}}.
-render-fastapi output_dir project_slug='my_fastapi_service' package_name='app' use_postgres='n':
+# Render the FastAPI template into {{output_dir}} using Cookiecutter prompts.
+render-fastapi output_dir:
+    uvx cookiecutter "{{justfile_directory()}}/fastapi" \
+        --output-dir '{{output_dir}}'
+
+# Run the generated FastAPI project's smoke test.
+test-fastapi output_dir project_slug='my_fastapi_service':
+    just --justfile '{{output_dir}}/{{project_slug}}/justfile' test
+
+# Render the Prefect template into {{output_dir}} using Cookiecutter prompts.
+render-prefect-flow output_dir:
+    uvx cookiecutter "{{justfile_directory()}}/prefect_flow" \
+        --output-dir '{{output_dir}}'
+
+# Run the generated Prefect project's local smoke test.
+test-prefect-flow output_dir project_slug='my_prefect_flow':
+    just --justfile '{{output_dir}}/{{project_slug}}/justfile' run-local
+
+# Convenience helper: render and smoke-test the FastAPI template in one go.
+check-fastapi output_dir='/tmp/cookiecutter_fastapi_check' project_slug='my_fastapi_service' package_name='app' use_postgres='n':
+    rm -rf '{{output_dir}}/{{project_slug}}'
     uvx cookiecutter "{{justfile_directory()}}/fastapi" --no-input \
         project_name='My FastAPI Service' \
         project_slug='{{project_slug}}' \
@@ -27,13 +46,11 @@ render-fastapi output_dir project_slug='my_fastapi_service' package_name='app' u
         python_version='3.11' \
         use_postgres='{{use_postgres}}' \
         --output-dir '{{output_dir}}'
+    just test-fastapi '{{output_dir}}' '{{project_slug}}'
 
-# Run the generated FastAPI project's smoke test.
-test-fastapi output_dir project_slug='my_fastapi_service':
-    just --justfile '{{output_dir}}/{{project_slug}}/justfile' test
-
-# Render the Prefect template into {{output_dir}}/{{project_slug}}.
-render-prefect-flow output_dir project_slug='my_prefect_flow' package_name='my_prefect_flow':
+# Convenience helper: render and smoke-test the Prefect template in one go.
+check-prefect-flow output_dir='/tmp/cookiecutter_prefect_flow_check' project_slug='my_prefect_flow' package_name='my_prefect_flow':
+    rm -rf '{{output_dir}}/{{project_slug}}'
     uvx cookiecutter "{{justfile_directory()}}/prefect_flow" --no-input \
         project_name='My Prefect Flow' \
         project_slug='{{project_slug}}' \
@@ -50,21 +67,6 @@ render-prefect-flow output_dir project_slug='my_prefect_flow' package_name='my_p
         cron_schedule='0 2 * * *' \
         timezone='America/New_York' \
         --output-dir '{{output_dir}}'
-
-# Run the generated Prefect project's local smoke test.
-test-prefect-flow output_dir project_slug='my_prefect_flow':
-    just --justfile '{{output_dir}}/{{project_slug}}/justfile' run-local
-
-# Convenience helper: render and smoke-test the FastAPI template in one go.
-check-fastapi output_dir='/tmp/cookiecutter_fastapi_check' project_slug='my_fastapi_service' package_name='app' use_postgres='n':
-    rm -rf '{{output_dir}}/{{project_slug}}'
-    just render-fastapi '{{output_dir}}' '{{project_slug}}' '{{package_name}}' '{{use_postgres}}'
-    just test-fastapi '{{output_dir}}' '{{project_slug}}'
-
-# Convenience helper: render and smoke-test the Prefect template in one go.
-check-prefect-flow output_dir='/tmp/cookiecutter_prefect_flow_check' project_slug='my_prefect_flow' package_name='my_prefect_flow':
-    rm -rf '{{output_dir}}/{{project_slug}}'
-    just render-prefect-flow '{{output_dir}}' '{{project_slug}}' '{{package_name}}'
     just test-prefect-flow '{{output_dir}}' '{{project_slug}}'
 
 # Show the current git status for this repository.
