@@ -14,10 +14,9 @@ pull:
       id: clone_step
       repository: "{{ cookiecutter.repository_url }}"
       branch: "{{ cookiecutter.default_branch }}"
-  - prefect.deployments.steps.run_shell_script:
-      id: install_project_step
-      script: 'pip install "{% raw %}{{ clone_step.directory }}{% endraw %}"'
-      stream_output: true
+  - prefect.deployments.steps.pip_install_requirements:
+      id: install_requirements_step
+      requirements_file: "{% raw %}{{ clone_step.directory }}{% endraw %}/requirements.txt"
 
 deployments:
   - name: "{{ cookiecutter.deployment_name }}"
@@ -33,6 +32,10 @@ deployments:
     work_pool:
       name: "{{ cookiecutter.work_pool_name }}"
       work_queue_name: null
+{% if cookiecutter.work_pool_name == "kubernetes" %}
       job_variables:
+        namespace: "prefect"
         packages:
           - "prefect-kubernetes>=0.7.2"
+        service_account_name: "prefect-worker"
+{% endif %}

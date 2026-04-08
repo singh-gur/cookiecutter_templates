@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">={{ cookiecutter.python_version }}"
 authors = [{ name = "{{ cookiecutter.author_name }}" }]
 dependencies = [
-  "prefect>=3.6.10",
+  "prefect==3.6.25",
   "prefect-kubernetes>=0.7.2",
 ]
 
